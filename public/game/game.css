@@ -1,3 +1,15 @@
 .hidden {
   display: none;
 }
+
+canvas {
+  border: 2px solid black;
+  width: 100px;
+  height: 100px;
+}
+
+#game-screen {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}

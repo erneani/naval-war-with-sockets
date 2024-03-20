@@ -11,7 +11,7 @@ const SCREENS = {
 };
 
 const socket = io();
-changeScreen(SCREENS.login);
+changeScreen(SCREENS.game);
 
 document.getElementById("submit-button").addEventListener("click", () => {
   const userName = document.getElementById("name__input").value;
