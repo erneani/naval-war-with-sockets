@@ -3,6 +3,8 @@ const http = require("http");
 const { Server } = require("socket.io");
 
 const gameRouter = require("./routes/gameRoutes");
+const { EVENT_TYPES } = require("./constants");
+const { startEngine } = require("./engine");
 
 const app = express();
 const server = http.createServer(app);
@@ -14,9 +16,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/game", gameRouter);
 
-io.on("connect", (socket) => {
-  console.log("User connected");
-});
+io.on(EVENT_TYPES.connect, startEngine);
 
 server.listen(3000, () => {
   console.log("Server listening on port 3000 :]");
