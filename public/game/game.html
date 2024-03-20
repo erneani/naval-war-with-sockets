@@ -8,13 +8,21 @@
     <title>Batalha Naval</title>
   </head>
   <body>
-    <input
-      type="text"
-      id="name__input"
-      placeholder="Insira o nome de usuário aqui"
-    />
-    <button id="submit-button">Escolher nome</button>
+    <section id="login-screen">
+      <input
+        type="text"
+        id="name__input"
+        placeholder="Insira o nome de usuário aqui"
+      />
+      <button id="submit-button">Escolher nome</button>
 
-    <script type="module" src="game.js"></script>
+      <script type="module" src="game.js"></script>
+    </section>
+
+    <section id="waiting-screen">
+      <h1>Esperando novos jogadores para iniciar a partida...</h1>
+    </section>
+
+    <section id="game-screen"></section>
   </body>
 </html>
