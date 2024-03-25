@@ -1,4 +1,4 @@
-function createGame(player1, player2) {
+function createGame(system, player1, player2) {
   console.log("game between " + player1 + " and " + player2);
 }
 

@@ -2,6 +2,11 @@ const { EVENT_TYPES } = require("../constants");
 const { createGame } = require("./mechanics");
 
 const playersOnLobby = [];
+const playerSockets = {};
+
+const system = {
+  games: [],
+};
 
 function startEngine(socket) {
   socket.on(EVENT_TYPES.playerJoined, (username) =>
@@ -14,12 +19,14 @@ function startEngine(socket) {
 }
 
 function handleNewPlayer(username, socket) {
-  console.log("inserting player " + username);
   playersOnLobby.push(username);
+  playerSockets[username] = socket;
 
   if (playersOnLobby.length >= 2) {
-    socket.emit(EVENT_TYPES.match, playersOnLobby);
-    createGame(playersOnLobby.shift(), playersOnLobby.shift());
+    playersOnLobby.forEach((player) => {
+      playerSockets[player].emit(EVENT_TYPES.match, playersOnLobby);
+    });
+    createGame(system, playersOnLobby.shift(), playersOnLobby.shift());
   }
 }
 

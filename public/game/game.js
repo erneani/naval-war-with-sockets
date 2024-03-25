@@ -14,7 +14,10 @@ const SCREENS = {
 const socket = io();
 let playerName = null;
 
-changeScreen(SCREENS.login);
+const gameState = {
+  player: [],
+  enemy: [],
+};
 
 document.getElementById("submit-button").addEventListener("click", () => {
   const userName = document.getElementById("name__input").value;
