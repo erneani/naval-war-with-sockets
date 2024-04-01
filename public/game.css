@@ -1,0 +1,37 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.hidden {
+  display: none !important;
+}
+
+canvas {
+  border: 10px solid black;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  width: 400px;
+  height: 400px;
+}
+
+#game-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  gap: 16px;
+}
+
+#stage-heading {
+  font-size: 32px;
+}
+
+#canvas-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}

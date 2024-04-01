@@ -1,4 +1,6 @@
 import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
+import { drawBoard, startGame } from "./board.js";
+import { getMousePositionAtCanvas } from "./listeners.js";
 
 const USER_EVENTS = {
   playerJoined: "player_joined",
@@ -42,4 +44,17 @@ function changeScreen(screenName) {
 socket.on(USER_EVENTS.match, (msg) => {
   console.log(msg);
   changeScreen(SCREENS.game);
+});
+
+startGame();
+
+const playerCanvas = document.getElementById("player__canvas");
+const oponentCanvas = document.getElementById("oponent__canvas");
+
+playerCanvas.addEventListener("mousedown", (e) => {
+  getMousePositionAtCanvas(playerCanvas, e);
+});
+
+oponentCanvas.addEventListener("mousedown", (e) => {
+  getMousePositionAtCanvas(oponentCanvas, e);
 });

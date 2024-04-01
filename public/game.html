@@ -8,34 +8,38 @@
     <title>Batalha Naval</title>
   </head>
   <body>
-    <section id="login-screen">
+    <section id="login-screen" class="hidden">
       <input
         type="text"
         id="name__input"
         placeholder="Insira o nome de usuário aqui"
       />
       <button id="submit-button">Escolher nome</button>
-
-      <script type="module" src="game.js"></script>
     </section>
 
     <section id="waiting-screen" class="hidden">
       <h1>Esperando novos jogadores para iniciar a partida...</h1>
     </section>
 
-    <section id="game-screen" class="hidden">
-      <canvas
-        width="10"
-        height="10"
-        id="player__canvas"
-        class="game-canvas"
-      ></canvas>
-      <canvas
-        width="10"
-        height="10"
-        id="oponent__canvas"
-        class="game-canvas"
-      ></canvas>
+    <section id="game-screen">
+      <h2 id="stage-heading">Turno de preparação</h2>
+      <h3 id=""></h3>
+      <div class="canvas-wrapper">
+        <canvas
+          width="400px"
+          height="400px"
+          id="player__canvas"
+          class="game-canvas"
+        ></canvas>
+        <canvas
+          width="400px"
+          height="400px"
+          id="oponent__canvas"
+          class="game-canvas"
+        ></canvas>
+      </div>
+      <h4>Restam <span id="clock">0:00</span> minutos</h4>
     </section>
+    <script type="module" src="game.js"></script>
   </body>
 </html>
