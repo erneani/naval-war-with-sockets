@@ -1,5 +1,6 @@
 import { renderState } from "./board.js";
 import {
+  BOARD_NAMES,
   canvasUnit,
   halfUnit,
   horizontalGuidelines,
@@ -9,17 +10,51 @@ import {
   strokeStyles,
   verticalGuidelines,
 } from "./constants.js";
+import { gameState } from "./game.js";
 
-export function renderBoard(newCtx = renderState.ctx) {
+export function renderBoard(
+  newCtx = renderState.ctx,
+  board = gameState.player
+) {
   renderState.ctx = newCtx;
 
   drawGrill();
   drawGuides();
+  drawBoats(board);
 }
 
 export function clearCanvas(canvas) {
   renderState.ctx.clearRect(0, 0, canvas.width, canvas.height);
   renderState.ctx.fillStyle = "";
+}
+
+function drawBoats(board) {
+  for (let i = minUnit; i <= maxUnit; i++) {
+    for (let j = minUnit; j <= maxUnit; j++) {
+      switch (board[`${i}${j}`]) {
+        case BOARD_NAMES.submarine:
+          renderState.ctx.fillStyle = "green";
+          drawRect(i, j);
+          break;
+        case BOARD_NAMES.cruzader:
+          renderState.ctx.fillStyle = "orange";
+          drawRect(i, j);
+          break;
+        case BOARD_NAMES.hidroplane:
+          renderState.ctx.fillStyle = "blue";
+          drawRect(i, j);
+          break;
+        case BOARD_NAMES.battleship:
+          renderState.ctx.fillStyle = "red";
+          drawRect(i, j);
+          break;
+        case BOARD_NAMES.aerocarrier:
+          renderState.ctx.fillStyle = "yellow";
+          drawRect(i, j);
+          break;
+      }
+    }
+  }
 }
 
 function drawGrill() {
@@ -40,7 +75,7 @@ function drawGuides() {
   }
 }
 
-export function drawRect(x, y) {
+function drawRect(x, y) {
   renderState.ctx.fillRect(
     x * canvasUnit,
     y * canvasUnit,

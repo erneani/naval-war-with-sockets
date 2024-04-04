@@ -1,37 +1,40 @@
 import { renderState } from "./board.js";
-import { ORIENTATIONS } from "./constants.js";
-import { drawRect } from "./render.js";
+import { BOARD_NAMES, ORIENTATIONS } from "./constants.js";
 
-export function renderSubmarine(x, y) {
-  renderState.ctx.fillStyle = "green";
-  renderShip(1, x, y);
-}
+export default class Boats {
+  board = {};
 
-export function renderCruzader(x, y) {
-  renderState.ctx.fillStyle = "orange";
-  renderShip(2, x, y);
-}
+  constructor(board) {
+    this.board = board;
+  }
 
-export function renderHidroPlane(x, y) {
-  renderState.ctx.fillStyle = "blue";
-  drawRect(x, y);
-  drawRect(x - 1, y + 1);
-  drawRect(x + 1, y + 1);
-}
+  renderSubmarine(x, y) {
+    this.renderShip(1, x, y, BOARD_NAMES.submarine);
+  }
 
-export function renderBattleship(x, y) {
-  renderState.ctx.fillStyle = "red";
-  renderShip(4, x, y);
-}
+  renderCruzader(x, y) {
+    this.renderShip(2, x, y, BOARD_NAMES.cruzader);
+  }
 
-export function renderAerocarrier(x, y) {
-  renderState.ctx.fillStyle = "yellow";
-  renderShip(5, x, y);
-}
+  renderHidroPlane(x, y) {
+    this.board[`${x}${y}`] = BOARD_NAMES.hidroplane;
+    this.board[`${x - 1}${y + 1}`] = BOARD_NAMES.hidroplane;
+    this.board[`${x + 1}${y + 1}`] = BOARD_NAMES.hidroplane;
+  }
 
-function renderShip(shipWidth, x, y) {
-  for (let i = 0; i < shipWidth; i++) {
-    if (renderState.orientation === ORIENTATIONS.horizontal) drawRect(x + i, y);
-    else drawRect(x, y + i);
+  renderBattleship(x, y) {
+    this.renderShip(4, x, y, BOARD_NAMES.battleship);
+  }
+
+  renderAerocarrier(x, y) {
+    this.renderShip(5, x, y, BOARD_NAMES.aerocarrier);
+  }
+
+  renderShip(shipWidth, x, y, shipElement) {
+    for (let i = 0; i < shipWidth; i++) {
+      if (renderState.orientation === ORIENTATIONS.horizontal)
+        this.board[`${x + i}${y}`] = shipElement;
+      else this.board[`${x}${y + i}`] = shipElement;
+    }
   }
 }
