@@ -1,5 +1,5 @@
 import { renderState } from "./board.js";
-import { BOARD_NAMES, ORIENTATIONS } from "./constants.js";
+import { BOARD_NAMES, ORIENTATIONS, maxUnit, minUnit } from "./constants.js";
 
 export default class Boats {
   board = {};
@@ -17,6 +17,13 @@ export default class Boats {
   }
 
   renderHidroPlane(x, y) {
+    if (x === minUnit) return;
+    if (y === minUnit) return;
+
+    if (x - 1 === 0) return;
+    if (y + 1 > maxUnit) return;
+    if (x + 1 > maxUnit) return;
+
     this.board[`${x}${y}`] = BOARD_NAMES.hidroplane;
     this.board[`${x - 1}${y + 1}`] = BOARD_NAMES.hidroplane;
     this.board[`${x + 1}${y + 1}`] = BOARD_NAMES.hidroplane;
@@ -31,6 +38,11 @@ export default class Boats {
   }
 
   renderShip(shipWidth, x, y, shipElement) {
+    if (x === minUnit) return;
+    if (y === minUnit) return;
+
+    if (x + shipWidth > maxUnit + 1) return;
+
     for (let i = 0; i < shipWidth; i++) {
       if (renderState.orientation === ORIENTATIONS.horizontal)
         this.board[`${x + i}${y}`] = shipElement;
