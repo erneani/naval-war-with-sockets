@@ -1,9 +1,11 @@
 import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
-import { gameSetup } from "./scripts/game.js";
+import { gameSetup, gameState } from "./scripts/game.js";
+import { GAME_PHASES } from "./scripts/constants.js";
 
 const USER_EVENTS = {
   playerJoined: "player_joined",
   match: "game_match",
+  playerFinished: "player_finished",
 };
 
 const SCREENS = {
@@ -25,6 +27,20 @@ document.getElementById("submit-button").addEventListener("click", () => {
   playerName = userName;
 
   changeScreen(SCREENS.waiting);
+});
+
+document.getElementById("finish-preparation").addEventListener("click", () => {
+  if (Object.values(gameState.availableBoards).some((x) => x !== 0)) {
+    return alert("Você deve inserir todas as embarcações no tabuleiro.");
+  }
+
+  const payload = {
+    username: playerName,
+    board: gameState.player,
+  };
+
+  socket.emit(USER_EVENTS.playerFinished, playerName);
+  gameState.phase = GAME_PHASES.battle;
 });
 
 function changeScreen(screenName) {

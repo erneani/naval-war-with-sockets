@@ -46,6 +46,10 @@ export function renderPreview(coords) {
 }
 
 export function selectBoat(coords) {
+  if (gameState.availableBoards[gameState.selectedShip] === 0) return;
+
+  gameState.availableBoards[gameState.selectedShip] -= 1;
+
   const previewBoats = new Boats(gameState.player);
 
   switch (gameState.selectedShip) {

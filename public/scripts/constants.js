@@ -33,6 +33,11 @@ export const BOATS_MAPPING = {
   e: "hidroplane",
   s: "submarine",
   r: "cruzader",
+  aerocarrier: "aerocarrier",
+  battleship: "battleship",
+  hidroplane: "hidroplane",
+  submarine: "submarine",
+  cruzader: "cruzader",
 };
 
 export const ORIENTATIONS = {

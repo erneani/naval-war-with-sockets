@@ -1,5 +1,5 @@
 import { drawBoard } from "./board.js";
-import { GAME_PHASES } from "./constants.js";
+import { BOATS_MAPPING, GAME_PHASES } from "./constants.js";
 import { INITIAL_BOARD } from "./gameConfig.js";
 import {
   addPreviewClickListener,
@@ -12,6 +12,13 @@ export const gameState = {
   enemy: [],
   phase: GAME_PHASES.preparation,
   selectedShip: null,
+  availableBoards: {
+    [BOATS_MAPPING.submarine]: 4,
+    [BOATS_MAPPING.aerocarrier]: 1,
+    [BOATS_MAPPING.battleship]: 2,
+    [BOATS_MAPPING.hidroplane]: 3,
+    [BOATS_MAPPING.cruzader]: 3,
+  },
 };
 
 export function gameSetup() {
