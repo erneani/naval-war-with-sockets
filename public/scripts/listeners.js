@@ -5,7 +5,7 @@ import { gameState } from "./game.js";
 export function addPreviewListener() {
   const playerCanvas = document.getElementById("player__canvas");
 
-  playerCanvas.addEventListener("mousemove", (e) => {
+  return playerCanvas.addEventListener("mousemove", (e) => {
     renderPreview(getMousePositionAtCanvas(playerCanvas, e));
   });
 }
@@ -13,7 +13,7 @@ export function addPreviewListener() {
 export function addPreviewClickListener() {
   const playerCanvas = document.getElementById("player__canvas");
 
-  playerCanvas.addEventListener("mousedown", (e) => {
+  return playerCanvas.addEventListener("mousedown", (e) => {
     selectBoat(getMousePositionAtCanvas(playerCanvas, e));
     renderPreview(getMousePositionAtCanvas(playerCanvas, e));
   });

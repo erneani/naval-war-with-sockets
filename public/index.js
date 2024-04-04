@@ -1,11 +1,11 @@
 import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
-import { gameSetup, gameState } from "./scripts/game.js";
-import { GAME_PHASES } from "./scripts/constants.js";
+import { gameSetup, gameState, startBattle } from "./scripts/game.js";
 
 const USER_EVENTS = {
   playerJoined: "player_joined",
   match: "game_match",
   playerFinished: "player_finished",
+  battleReady: "battle_ready",
 };
 
 const SCREENS = {
@@ -15,7 +15,12 @@ const SCREENS = {
 };
 
 const socket = io();
+
 let playerName = null;
+let playerId = null;
+let enemyName = null;
+
+let gameId = null;
 
 document.getElementById("submit-button").addEventListener("click", () => {
   const userName = document.getElementById("name__input").value;
@@ -35,12 +40,12 @@ document.getElementById("finish-preparation").addEventListener("click", () => {
   }
 
   const payload = {
-    username: playerName,
+    playerId,
     board: gameState.player,
+    gameId,
   };
 
-  socket.emit(USER_EVENTS.playerFinished, playerName);
-  gameState.phase = GAME_PHASES.battle;
+  socket.emit(USER_EVENTS.playerFinished, payload);
 });
 
 function changeScreen(screenName) {
@@ -51,9 +56,22 @@ function changeScreen(screenName) {
   });
 }
 
-socket.on(USER_EVENTS.match, (msg) => {
-  console.log(msg);
+socket.on(USER_EVENTS.match, (payload) => {
+  gameId = payload.gameId;
+
+  payload.players.forEach((player) => {
+    if (player.username !== playerName) {
+      enemyName = player.userName;
+    } else {
+      playerId = player.id;
+    }
+  });
+
   changeScreen(SCREENS.game);
+  gameSetup();
 });
 
-gameSetup();
+socket.on(USER_EVENTS.battleReady, (payload) => {
+  console.log(payload);
+  startBattle();
+});

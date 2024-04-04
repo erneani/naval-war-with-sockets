@@ -1,11 +1,10 @@
+const { v4 } = require("uuid");
 const { EVENT_TYPES } = require("../constants");
-const { createGame } = require("./mechanics");
-
-const playersOnLobby = [];
-const playerSockets = {};
 
 const system = {
-  games: [],
+  games: {},
+  playersOnline: [],
+  playersSocket: {},
 };
 
 function startEngine(socket) {
@@ -16,17 +15,43 @@ function startEngine(socket) {
   socket.on(EVENT_TYPES.disconnect, () => {
     console.log("player disconnected");
   });
+
+  socket.on(EVENT_TYPES.playerFinished, (payload) => {
+    console.log(payload);
+    const game = system.games[payload.gameId];
+    game.boards[payload.playerId] = payload.board;
+  });
 }
 
 function handleNewPlayer(username, socket) {
-  playersOnLobby.push(username);
-  playerSockets[username] = socket;
+  const player = {
+    username,
+    id: v4(),
+  };
 
-  if (playersOnLobby.length >= 2) {
-    playersOnLobby.forEach((player) => {
-      playerSockets[player].emit(EVENT_TYPES.match, playersOnLobby);
+  system.playersOnline.push(player);
+  system.playersSocket[player.id] = socket;
+
+  if (system.playersOnline.length >= 2) {
+    const playerA = system.playersOnline.shift();
+    const playerB = system.playersOnline.shift();
+
+    const gameUUID = v4();
+
+    system.playersSocket[playerA.id].emit(EVENT_TYPES.match, {
+      gameId: gameUUID,
+      players: [playerA, playerB],
     });
-    createGame(system, playersOnLobby.shift(), playersOnLobby.shift());
+
+    system.playersSocket[playerB.id].emit(EVENT_TYPES.match, {
+      gameId: gameUUID,
+      players: [playerA, playerB],
+    });
+
+    system.games[gameUUID] = {
+      playersFinished: [],
+      boards: {},
+    };
   }
 }
 
