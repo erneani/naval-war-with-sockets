@@ -21,7 +21,8 @@ export const gameState = {
   },
 };
 
-const preparationListeners = [];
+let addPreviewListenerRef;
+let addPreviewClickListenerRef;
 
 export function gameSetup() {
   drawBoard();
@@ -32,10 +33,11 @@ function startPreparation() {
   getKeyboardStrokes();
   const addPreviewListenerRef = addPreviewListener();
   const addPreviewClickListenerRef = addPreviewClickListener();
-
-  preparationListeners.push(addPreviewListenerRef, addPreviewClickListenerRef);
 }
 
 export function startBattle() {
-  preparationListeners.forEach((listener) => removeEventListener(listener));
+  const playerCanvas = document.getElementById("player__canvas");
+
+  playerCanvas.removeEventListener("mousemove", addPreviewListener);
+  playerCanvas.removeEventListener("mousemove", addPreviewClickListener);
 }

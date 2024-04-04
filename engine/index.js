@@ -17,9 +17,18 @@ function startEngine(socket) {
   });
 
   socket.on(EVENT_TYPES.playerFinished, (payload) => {
-    console.log(payload);
     const game = system.games[payload.gameId];
     game.boards[payload.playerId] = payload.board;
+
+    game.playersFinished.push(payload.playerId);
+
+    if (game.playersFinished.length >= 2) {
+      game.playersFinished.forEach((playerId) =>
+        system.playersSocket[playerId].emit(EVENT_TYPES.battleReady)
+      );
+    }
+
+    console.log(game);
   });
 }
 
