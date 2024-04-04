@@ -72,6 +72,5 @@ socket.on(USER_EVENTS.match, (payload) => {
 });
 
 socket.on(USER_EVENTS.battleReady, (payload) => {
-  console.log(payload);
   startBattle();
 });

@@ -27,8 +27,6 @@ function startEngine(socket) {
         system.playersSocket[playerId].emit(EVENT_TYPES.battleReady)
       );
     }
-
-    console.log(game);
   });
 }
 
