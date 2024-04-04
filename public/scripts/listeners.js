@@ -1,4 +1,4 @@
-import { renderPreview, renderState } from "./board.js";
+import { renderPreview, renderState, selectBoat } from "./board.js";
 import { BOATS_MAPPING, ORIENTATIONS, canvasUnit } from "./constants.js";
 import { gameState } from "./game.js";
 
@@ -6,6 +6,15 @@ export function addPreviewListener() {
   const playerCanvas = document.getElementById("player__canvas");
 
   playerCanvas.addEventListener("mousemove", (e) => {
+    renderPreview(getMousePositionAtCanvas(playerCanvas, e));
+  });
+}
+
+export function addPreviewClickListener() {
+  const playerCanvas = document.getElementById("player__canvas");
+
+  playerCanvas.addEventListener("mousedown", (e) => {
+    selectBoat(getMousePositionAtCanvas(playerCanvas, e));
     renderPreview(getMousePositionAtCanvas(playerCanvas, e));
   });
 }
@@ -37,12 +46,6 @@ export function getKeyboardStrokes() {
         gameState.selectedShip = null;
         return;
     }
-  });
-}
-
-function addMouseListener(action, element) {
-  element.addEventListener(action, (e) => {
-    gameState.mouseCoords = getMousePositionAtCanvas(element, e);
   });
 }
 

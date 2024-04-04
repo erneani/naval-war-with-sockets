@@ -1,7 +1,6 @@
 import Boats from "./boats.js";
 import { BOATS_MAPPING, ORIENTATIONS } from "./constants.js";
 import { gameState } from "./game.js";
-import { INITIAL_BOARD } from "./gameConfig.js";
 import { clearCanvas, renderBoard } from "./render.js";
 
 export let renderState = {
@@ -21,7 +20,7 @@ export function renderPreview(coords) {
   const playerCanvas = document.getElementById("player__canvas");
   renderState.ctx = playerCanvas.getContext("2d");
 
-  const previewBoats = new Boats({ ...INITIAL_BOARD });
+  const previewBoats = new Boats({ ...gameState.player });
 
   clearCanvas(playerCanvas);
 
@@ -44,4 +43,26 @@ export function renderPreview(coords) {
   }
 
   renderBoard(renderState.ctx, previewBoats.board);
+}
+
+export function selectBoat(coords) {
+  const previewBoats = new Boats(gameState.player);
+
+  switch (gameState.selectedShip) {
+    case BOATS_MAPPING.s:
+      previewBoats.renderSubmarine(coords.x, coords.y);
+      break;
+    case BOATS_MAPPING.q:
+      previewBoats.renderAerocarrier(coords.x, coords.y);
+      break;
+    case BOATS_MAPPING.w:
+      previewBoats.renderBattleship(coords.x, coords.y);
+      break;
+    case BOATS_MAPPING.e:
+      previewBoats.renderHidroPlane(coords.x, coords.y);
+      break;
+    case BOATS_MAPPING.r:
+      previewBoats.renderCruzader(coords.x, coords.y);
+      break;
+  }
 }
